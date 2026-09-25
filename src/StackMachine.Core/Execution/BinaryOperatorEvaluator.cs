@@ -65,7 +65,7 @@ internal static class BinaryOperatorEvaluator
 
         if (left == int.MinValue && right == -1)
         {
-            return 0;
+            return int.MinValue;
         }
 
         return left / right;
@@ -74,6 +74,12 @@ internal static class BinaryOperatorEvaluator
     private static int Remainder(int left, int right)
     {
         if (right == 0)
+        {
+            throw new MachineExecutionException(
+                "Division by zero");
+        }
+
+        if (left == int.MinValue && right == -1)
         {
             return 0;
         }
