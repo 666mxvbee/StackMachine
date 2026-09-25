@@ -15,7 +15,7 @@ public static class MachineProgramJsonParser
         if (root.ValueKind != JsonValueKind.Array)
         {
             throw new MachineProgramJsonException(
-                $"expected array, got {root.ValueKind}");
+                $"$: expected array, got {root.ValueKind}");
         }
 
         var instructions = new List<Instruction>(
@@ -50,7 +50,7 @@ public static class MachineProgramJsonParser
                 "WRITE" => new WriteInstruction(),
 
                 _ => throw new MachineProgramJsonException(
-                    $"{path}: unknown instruction: {element.GetString()}"),
+                    $"{path}: unknown instruction: \"{instructionName}\""),
             };
         }
 
@@ -90,7 +90,7 @@ public static class MachineProgramJsonParser
                 ParseStringArgument(property.Value, propertyPath)),
 
             _ => throw new MachineProgramJsonException(
-                $"{path}: unknown instruction {property.Name}"),
+                $"{path}: unknown instruction \"{property.Name}\""),
         };
     }
 
@@ -133,7 +133,7 @@ public static class MachineProgramJsonParser
             "%" => BinaryOperator.Remainder,
 
             _ => throw new MachineProgramJsonException(
-                $"{path}: unknown binary operator {value}"),
+                $"{path}: unknown binary operator \"{value}\""),
         };
     }
 
@@ -144,7 +144,7 @@ public static class MachineProgramJsonParser
         if (element.ValueKind != JsonValueKind.String)
         {
             throw new MachineProgramJsonException(
-                $"{path}: expected string or an string, got {element.ValueKind}");
+                $"{path}: expected a string, got {element.ValueKind}");
         }
 
         return element.GetString()
@@ -179,7 +179,8 @@ public static class MachineProgramJsonParser
         if (actualCount != expectedCount)
         {
             throw new MachineProgramJsonException(
-                $"{path}: expected {expectedCount}, got {actualCount}");
+                $"{path}: expected {expectedCount}, properties "
+                + $"got {actualCount}");
         }
     }
 
