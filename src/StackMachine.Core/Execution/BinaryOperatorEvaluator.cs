@@ -65,7 +65,7 @@ internal static class BinaryOperatorEvaluator
 
         if (left == int.MinValue && right == -1)
         {
-            return int.MinValue;
+            return 0;
         }
 
         return left / right;
