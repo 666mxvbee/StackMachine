@@ -9,7 +9,7 @@ public static class MachineProgramJsonParser
     {
         ArgumentNullException.ThrowIfNull(json);
 
-        using JsonDocument document = JsonDocument.Parse(json);
+        using var document = JsonDocument.Parse(json);
         JsonElement root = document.RootElement;
 
         if (root.ValueKind != JsonValueKind.Array)
