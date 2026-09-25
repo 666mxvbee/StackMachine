@@ -30,22 +30,24 @@ public static class Program
         }
 
         string programPath = args[0];
-        string? inputArgument = args.Length == 2
+        string? inputPath = args.Length == 2
             ? args[1]
             : null;
 
-        return Run(programPath, inputArgument);
+        return Run(programPath, inputPath);
     }
 
     private static int Run(
         string programPath,
-        string? inputArgument)
+        string? inputPath)
     {
         try
         {
             string json = File.ReadAllText(programPath);
-            string inputText = inputArgument
-                ?? Console.In.ReadToEnd();
+
+            string inputText = inputPath is null
+                ? Console.In.ReadToEnd()
+                : File.ReadAllText(inputPath);
 
             IReadOnlyList<Instruction> program =
                 MachineProgramJsonParser.Parse(json);
@@ -128,6 +130,6 @@ public static class Program
 
         Console.Error.WriteLine("input: comma-separated integers,for example \"-52, 67\"");
 
-        Console.Error.WriteLine("output: if ommited, input is read from stdin");
+        Console.Error.WriteLine("if input.txt is omitted, input is read from stdin");
     }
 }
